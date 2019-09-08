@@ -346,3 +346,8 @@ site.min.css
 
 #Generated SQLite Database
 UptimeHippoApi.db
+
+
+# CICD
+vps_publish.txt
+vps_publish.bat
