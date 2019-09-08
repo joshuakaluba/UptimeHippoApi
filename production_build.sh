@@ -1,1 +1,1 @@
-dotnet publish ./src/UptimeHippoApi.Web/UptimeHippoApi.Web.csproj -o ../../dist -c Release
+dotnet publish ./src/UptimeHippoApi.Web/UptimeHippoApi.Web.csproj -o ../../deployment/api/dist -c Release
