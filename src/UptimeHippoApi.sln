@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UptimeHippoApi.Web", "UptimeHippoApi.Web\UptimeHippoApi.Web.csproj", "{09FCEAE3-70D3-44E4-B98B-A138A41014E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UptimeHippoApi.Data", "UptimeHippoApi.Data\UptimeHippoApi.Data.csproj", "{A21EE2F1-3A31-447F-AC2F-05E3BB9BEAFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UptimeHippoApi.Tests", "UptimeHippoApi.Tests\UptimeHippoApi.Tests.csproj", "{2594B0AD-AE92-4001-945A-60BFE408A6B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UptimeHippoApi.Common", "UptimeHippoApi.Common\UptimeHippoApi.Common.csproj", "{0F44DCF6-E69F-4EE8-BAA3-594C04D51463}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UptimeHippoApi.Services", "UptimeHippoApi.Services\UptimeHippoApi.Services.csproj", "{3C7852DD-B536-46A4-AF3A-F897C9875D79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09FCEAE3-70D3-44E4-B98B-A138A41014E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09FCEAE3-70D3-44E4-B98B-A138A41014E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09FCEAE3-70D3-44E4-B98B-A138A41014E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09FCEAE3-70D3-44E4-B98B-A138A41014E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A21EE2F1-3A31-447F-AC2F-05E3BB9BEAFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A21EE2F1-3A31-447F-AC2F-05E3BB9BEAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A21EE2F1-3A31-447F-AC2F-05E3BB9BEAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A21EE2F1-3A31-447F-AC2F-05E3BB9BEAFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2594B0AD-AE92-4001-945A-60BFE408A6B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2594B0AD-AE92-4001-945A-60BFE408A6B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2594B0AD-AE92-4001-945A-60BFE408A6B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2594B0AD-AE92-4001-945A-60BFE408A6B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F44DCF6-E69F-4EE8-BAA3-594C04D51463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F44DCF6-E69F-4EE8-BAA3-594C04D51463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F44DCF6-E69F-4EE8-BAA3-594C04D51463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F44DCF6-E69F-4EE8-BAA3-594C04D51463}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C7852DD-B536-46A4-AF3A-F897C9875D79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C7852DD-B536-46A4-AF3A-F897C9875D79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C7852DD-B536-46A4-AF3A-F897C9875D79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C7852DD-B536-46A4-AF3A-F897C9875D79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC2AC899-E6E7-4351-8E8B-CC0B723974FD}
+	EndGlobalSection
+EndGlobal
