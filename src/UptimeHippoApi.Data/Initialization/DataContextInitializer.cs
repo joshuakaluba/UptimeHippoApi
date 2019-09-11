@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using UptimeHippoApi.Data.DataContext;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using UptimeHippoApi.Data.DataContext;
 
 namespace UptimeHippoApi.Data.Initialization
 {

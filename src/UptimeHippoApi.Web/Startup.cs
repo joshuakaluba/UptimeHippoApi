@@ -28,7 +28,7 @@ namespace UptimeHippoApi.Web
                 .SetBasePath(env.ContentRootPath)
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = builder.Build();
-        }        
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
