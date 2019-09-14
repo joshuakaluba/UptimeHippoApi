@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace UptimeHippoApi.Data.Models.Domain.Entity
 {
