@@ -36,7 +36,7 @@ namespace UptimeHippoApi.Web
             services.AddScoped<IPushNotificationTokensRepository, PushNotificationTokensRepository>();
             services.AddScoped<IMessagingService, MessagingService>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddCors(o => o.AddPolicy("MyPolicy", corsBuilder =>
+            services.AddCors(o => o.AddPolicy("UptimeHippoCorsPolicy", corsBuilder =>
             {
                 corsBuilder.WithOrigins("http://localhost:4200")
                     .WithOrigins("https://testzone.kaluba.tech")
@@ -92,7 +92,7 @@ namespace UptimeHippoApi.Web
                     app.UseExceptionHandler("/Home/Error");
                 }
 
-                app.UseCors("MyPolicy");
+                app.UseCors("UptimeHippoCorsPolicy");
                 app.UseMiddleware<MaintainCorsHeadersMiddleware>();
                 app.UseStaticFiles();
                 app.UseAuthentication();
