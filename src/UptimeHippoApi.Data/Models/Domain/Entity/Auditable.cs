@@ -10,7 +10,6 @@ namespace UptimeHippoApi.Data.Models.Domain.Entity
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [JsonProperty("dateCreated")]
-        [ScaffoldColumn(false)]
         public virtual DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public virtual bool Equals(Auditable other)
