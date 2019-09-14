@@ -40,8 +40,6 @@ namespace UptimeHippoApi.Web
             {
                 corsBuilder.WithOrigins("http://localhost:4200")
                     .WithOrigins("https://testzone.kaluba.tech")
-                    .WithOrigins("https://*")
-                    .WithOrigins("http://*")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
