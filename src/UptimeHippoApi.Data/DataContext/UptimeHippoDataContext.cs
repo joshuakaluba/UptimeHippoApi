@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Models.Notification;
 using UptimeHippoApi.Data.Models.Static;
+using UptimeHippoApi.Data.Models.WebResource;
 
 namespace UptimeHippoApi.Data.DataContext
 {
     public class UptimeHippoDataContext : IdentityDbContext<ApplicationUser>
     {
         internal DbSet<PushNotificationToken> PushNotificationTokens { get; set; }
+        internal DbSet<Monitor> Monitors { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
