@@ -6,17 +6,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using UptimeHippoApi.Data.DataContext;
+using UptimeHippoApi.Data.Models.Authentication;
+using UptimeHippoApi.Data.Models.Static;
 
 namespace UptimeHippoApi.Data.Initialization
 {
     public static class DataContextInitializer
     {
         public static Claim DefaultUserClaim => new Claim("DefaultUserClaim", "DefaultUserAuthorization");
-        public static string AdministratorRole => "Administrator";
-        public static string UserRole => "User";
-        private static readonly string[] Roles = new string[] { AdministratorRole, UserRole };
+        public static string UserRole = "User";
 
-        public static async Task Seed(IServiceProvider serviceProvider)
+        public static async Task UpdateContext(IServiceProvider serviceProvider)
         {
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
@@ -24,16 +24,30 @@ namespace UptimeHippoApi.Data.Initialization
 
                 if (context.Database.GetPendingMigrations().Any())
                 {
-                    await context.Database.MigrateAsync();
-                    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    await context.Database.MigrateAsync();                    
+                }
+            }
+        }
 
-                    foreach (var role in Roles)
-                    {
-                        if (!await roleManager.RoleExistsAsync(role))
-                        {
-                            await roleManager.CreateAsync(new IdentityRole(role));
-                        }
-                    }
+        public static async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            var roleCheck = await roleManager.RoleExistsAsync(UserRole);
+            if (!roleCheck)
+            {
+                IdentityRole userRole = new IdentityRole(UserRole);
+                await roleManager.CreateAsync(userRole);
+
+                var testUser = await userManager.FindByEmailAsync(ApplicationConfig.TestUserEmail);
+
+                if (testUser == null)
+                {
+                    var user = new ApplicationUser { UserName = ApplicationConfig.TestUserEmail, Email = ApplicationConfig.TestUserEmail };
+                    userManager.CreateAsync(user, ApplicationConfig.TestUserPassword).Wait();
+
+                    await userManager.AddToRoleAsync(user, UserRole);
                 }
             }
         }
