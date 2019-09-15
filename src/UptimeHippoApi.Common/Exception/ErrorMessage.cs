@@ -1,4 +1,6 @@
-﻿namespace UptimeHippoApi.Common.Exception
+﻿using Newtonsoft.Json;
+
+namespace UptimeHippoApi.Common.Exception
 {
     public class ErrorMessage
     {
@@ -12,6 +14,7 @@
             Message = exception.Message;
         }
 
+        [JsonProperty("message")]
         public string Message { get; set; }
     }
 }
