@@ -46,7 +46,7 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
             {
                 var monitors =
                     await DataContext.Monitors
-                        .Where(monitor => monitor.ApplicationUserId == user.Id && monitor.Active)
+                        .Where(monitor => monitor.ApplicationUserId == user.Id)
                             .OrderByDescending(monitor => monitor.DateCreated)
                                 .ToListAsync();
                 return monitors;
