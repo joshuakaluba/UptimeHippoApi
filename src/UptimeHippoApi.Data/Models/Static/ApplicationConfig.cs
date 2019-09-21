@@ -28,13 +28,17 @@ namespace UptimeHippoApi.Data.Models.Static
 
         #endregion Database Configs
 
-        #region Misc
+        #region Test User Creds
 
-        public static string JwtTokenKey
-           = Environment.GetEnvironmentVariable
-               ("UPTIME_HIPPO_API_JWT_KEY", target: EnvironmentVariableTarget.Process);
+        public static string TestUserEmail
+            = Environment.GetEnvironmentVariable
+                ("UPTIME_HIPPO_TEST_USER_EMAIL", target: EnvironmentVariableTarget.Process);
 
-        #endregion Misc
+        public static string TestUserPassword
+            = Environment.GetEnvironmentVariable
+                ("UPTIME_HIPPO_TEST_USER_PASSWORD", target: EnvironmentVariableTarget.Process);
+
+        #endregion Test User Creds
 
         #region Twilio Config
 

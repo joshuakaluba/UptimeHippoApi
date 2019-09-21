@@ -24,7 +24,7 @@ namespace UptimeHippoApi.Data.Initialization
 
                 if (context.Database.GetPendingMigrations().Any())
                 {
-                    await context.Database.MigrateAsync();                    
+                    await context.Database.MigrateAsync();
                 }
             }
         }
