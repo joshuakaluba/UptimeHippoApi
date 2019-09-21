@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 using UptimeHippoApi.Data.DataAccessLayer.Authentication;
+using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.DataAccessLayer.PushNotificationTokens;
 using UptimeHippoApi.Data.DataContext;
 using UptimeHippoApi.Data.Initialization;
 using UptimeHippoApi.Data.Models.Authentication;
-using UptimeHippoApi.Data.Models.Static;
 using UptimeHippoApi.Data.Services.Messaging;
 using UptimeHippoApi.Web.MiddleWare;
 using TokenOptions = UptimeHippoApi.Data.Models.Authentication.TokenOptions;
@@ -35,6 +36,7 @@ namespace UptimeHippoApi.Web
             services.AddDbContext<UptimeHippoDataContext>();
             services.AddScoped<IPushNotificationTokensRepository, PushNotificationTokensRepository>();
             services.AddScoped<IMessagingService, MessagingService>();
+            services.AddScoped<IMonitorsRepository, MonitorsRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddCors(o => o.AddPolicy("UptimeHippoCorsPolicy", corsBuilder =>
             {
@@ -54,6 +56,7 @@ namespace UptimeHippoApi.Web
                 option.Password.RequireNonAlphanumeric = false;
                 option.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<UptimeHippoDataContext>()
+              .AddDefaultUI()
               .AddDefaultTokenProviders();
 
             services.AddAuthentication()
@@ -65,7 +68,7 @@ namespace UptimeHippoApi.Web
                     {
                         ValidIssuer = Configuration["TokenOptions:Issuer"],
                         ValidAudience = Configuration["TokenOptions:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ApplicationConfig.JwtTokenKey)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenOptions:Key"])),
                     };
                 });
 
@@ -75,7 +78,7 @@ namespace UptimeHippoApi.Web
             services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             try
             {
@@ -101,7 +104,8 @@ namespace UptimeHippoApi.Web
                         template: "{controller=Home}/{action=Index}/{id?}");
                 });
 
-                DataContextInitializer.Seed(app.ApplicationServices).Wait();
+                DataContextInitializer.UpdateContext(serviceProvider).Wait();
+                DataContextInitializer.CreateUserRoles(serviceProvider).Wait();
             }
             catch (System.Exception ex)
             {
