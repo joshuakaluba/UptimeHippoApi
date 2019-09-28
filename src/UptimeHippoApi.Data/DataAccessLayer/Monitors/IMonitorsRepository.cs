@@ -10,7 +10,7 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
     {
         Task CreateMonitor(Monitor monitor);
 
-        Task DeactivateMonitor(Monitor monitor);
+        Task DeleteMonitor(Monitor monitor);
 
         Task<Monitor> FindMonitor(Guid id);
 
