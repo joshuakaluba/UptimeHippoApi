@@ -44,5 +44,8 @@ namespace UptimeHippoApi.Data.Models.Authentication
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         [JsonProperty("confirmPassword")]
         public string ConfirmPassword { get; set; }
+
+        [JsonProperty("phoneNumber")]
+        public string PhoneNumber { get; set; }
     }
 }
