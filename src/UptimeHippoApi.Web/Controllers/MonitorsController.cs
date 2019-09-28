@@ -71,6 +71,37 @@ namespace UptimeHippoApi.Web.Controllers
             }
         }
 
+        //Monitors/UpdateMonitor
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Trusted")]
+        public async Task<IActionResult> UpdateMonitor(Guid id, [FromBody] MonitorViewModel monitorViewModel)
+        {
+            try
+            {
+                var user = await GetUser();
+
+                var monitor = await _monitorsRepository.FindMonitor(id);
+
+                if (monitor != null && monitor.ApplicationUserId == user.Id)
+                {
+                    monitor.Active = monitorViewModel.Active;
+                    monitor.Interval = monitorViewModel.Interval;
+                    monitor.Type = monitorViewModel.Type;
+                    monitor.Url = monitorViewModel.Url;
+
+                    await _monitorsRepository.UpdateMonitor(monitor);
+                    return Ok(monitor);
+                }
+
+                return BadRequest(new ErrorMessage("Unable to delete monitor"));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                return BadRequest(new ErrorMessage(ex));
+            }
+        }
+
         //Monitors/DeleteMonitor
         [HttpDelete]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Trusted")]
