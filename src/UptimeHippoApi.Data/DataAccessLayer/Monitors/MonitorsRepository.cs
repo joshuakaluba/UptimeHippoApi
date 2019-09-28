@@ -16,15 +16,17 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
             using (DataContext = new UptimeHippoDataContext())
             {
                 DataContext.Monitors.Add(monitor);
-
                 await DataContext.SaveChangesAsync();
             }
         }
 
-        public async Task DeactivateMonitor(Monitor monitor)
+        public async Task DeleteMonitor(Monitor monitor)
         {
-            monitor.Active = false;
-            await UpdateMonitor(monitor);
+            using (DataContext = new UptimeHippoDataContext())
+            {
+                DataContext.Monitors.Remove(monitor);
+                await DataContext.SaveChangesAsync();
+            }
         }
 
         public async Task<Monitor> FindMonitor(Guid monitorId)
@@ -34,8 +36,7 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
                 var monitor
                      = await DataContext.Monitors
                          .Where(m => m.Id == monitorId)
-                             .Include(m => m.ApplicationUser)
-                                 .FirstOrDefaultAsync();
+                            .FirstOrDefaultAsync();
                 return monitor;
             }
         }
@@ -58,7 +59,6 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
             using (DataContext = new UptimeHippoDataContext())
             {
                 DataContext.Monitors.Update(monitor);
-
                 await DataContext.SaveChangesAsync();
             }
         }
