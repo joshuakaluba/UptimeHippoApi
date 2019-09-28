@@ -94,7 +94,8 @@ namespace UptimeHippoApi.Web.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber
                 };
 
                 var result = await _userRepository.RegisterNewUser(UserManager, user, model.Password);
