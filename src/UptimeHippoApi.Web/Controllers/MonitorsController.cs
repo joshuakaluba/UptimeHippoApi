@@ -59,6 +59,9 @@ namespace UptimeHippoApi.Web.Controllers
                 monitor.ApplicationUserId = user.Id;
                 monitor.Interval = monitorViewModel.Interval;
                 monitor.Type = monitorViewModel.Type;
+                monitor.Name = monitorViewModel.Name;
+                monitor.KeyWord = monitorViewModel.KeyWord;
+                monitor.Port = monitorViewModel.Port;
 
                 await _monitorsRepository.CreateMonitor(monitor);
 
@@ -88,6 +91,9 @@ namespace UptimeHippoApi.Web.Controllers
                     monitor.Interval = monitorViewModel.Interval;
                     monitor.Type = monitorViewModel.Type;
                     monitor.Url = monitorViewModel.Url;
+                    monitor.Name = monitorViewModel.Name;
+                    monitor.KeyWord = monitorViewModel.KeyWord;
+                    monitor.Port = monitorViewModel.Port;
 
                     await _monitorsRepository.UpdateMonitor(monitor);
                     return Ok(monitor);
