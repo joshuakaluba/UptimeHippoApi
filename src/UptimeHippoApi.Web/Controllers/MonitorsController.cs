@@ -9,7 +9,7 @@ using UptimeHippoApi.Common.Exception;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Models.Domain.ViewModels;
-using UptimeHippoApi.Data.Models.WebResource;
+using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Web.Controllers
 {
