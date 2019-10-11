@@ -2,11 +2,13 @@
 {
     public enum MonitorIntervalEnum
     {
-        FIVE_MINUTES = 0,
-        TEN_MINUTES = 1,
-        THIRTY_MINUTES = 2,
-        HOURLY = 3,
-        TWELVE_HOURS = 4,
-        DAILY = 5
+        EVERY_MINUTE = 0,
+        FIVE_MINUTES = 1,
+        TEN_MINUTES = 2,
+        THIRTY_MINUTES = 3,
+        HOURLY = 4,
+        SIX_HOURS = 5,
+        TWELVE_HOURS = 6,
+        DAILY = 7
     }
 }
