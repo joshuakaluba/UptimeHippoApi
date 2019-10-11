@@ -353,3 +353,5 @@ vps_publish.txt
 vps_publish.bat
 rebuild_containers.sh
 publish.lnk
+src/UptimeHippoApi.Web/appsettings.Development.json
+src/UptimeHippoApi.Web/appsettings.json
