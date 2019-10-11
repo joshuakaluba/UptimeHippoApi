@@ -12,7 +12,7 @@ using UptimeHippoApi.Data.DataAccessLayer.PushNotificationTokens;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Models.Notification;
 using UptimeHippoApi.Data.Models.Static;
-using UptimeHippoApi.Services.Authentication;
+using UptimeHippoApi.Data.Services.Authentication;
 using TokenOptions = UptimeHippoApi.Data.Models.Authentication.TokenOptions;
 
 namespace UptimeHippoApi.Web.Controllers
@@ -23,11 +23,15 @@ namespace UptimeHippoApi.Web.Controllers
         private readonly TokenOptions _tokenOptions;
         private readonly IUserRepository _userRepository;
         private readonly IPushNotificationTokensRepository _pushNotificationTokensRepository;
+        private readonly IUserValidatorService _userValidatorService;
+        private readonly ITokenGeneratorService _tokenGeneratorService;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IUserRepository userRepository,
             IPushNotificationTokensRepository pushNotificationTokensRepository,
+            IUserValidatorService userValidatorService,
+            ITokenGeneratorService  tokenGeneratorService,
             IOptions<TokenOptions> tokens,
             ILogger<AuthenticationController> logger)
             : base(userManager, logger)
@@ -36,6 +40,8 @@ namespace UptimeHippoApi.Web.Controllers
             _userRepository = userRepository;
             _tokenOptions = tokens.Value;
             _pushNotificationTokensRepository = pushNotificationTokensRepository;
+            _userValidatorService = userValidatorService;
+            _tokenGeneratorService = tokenGeneratorService;
         }
 
         //Authentication/Login
@@ -56,7 +62,7 @@ namespace UptimeHippoApi.Web.Controllers
                     return BadRequest(new ErrorMessage(ErrorMessageResponses.UnableToLogIn));
                 }
 
-                var isUserValid = UserValidator.Validate(user);
+                var isUserValid = _userValidatorService.ValidateUser(user);
 
                 if (!isUserValid)
                 {
@@ -70,7 +76,7 @@ namespace UptimeHippoApi.Web.Controllers
                     return BadRequest(new ErrorMessage(ErrorMessageResponses.UnableToLogIn));
                 }
 
-                var token = await TokenGenerator.CreateJwtToken(user, UserManager, _tokenOptions);
+                var token = await _tokenGeneratorService.CreateJwtToken(user, UserManager, _tokenOptions);
                 return Ok(token);
             }
             catch (Exception ex)
@@ -105,7 +111,7 @@ namespace UptimeHippoApi.Web.Controllers
                     return BadRequest(new ErrorMessage(ErrorMessageResponses.UnableToRegister));
                 }
 
-                var token = await TokenGenerator.CreateJwtToken(user, UserManager, _tokenOptions);
+                var token = await _tokenGeneratorService.CreateJwtToken(user, UserManager, _tokenOptions);
                 return Ok(token);
             }
             catch (Exception ex)
