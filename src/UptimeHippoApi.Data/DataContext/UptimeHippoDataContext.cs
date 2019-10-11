@@ -11,6 +11,7 @@ namespace UptimeHippoApi.Data.DataContext
     {
         internal DbSet<PushNotificationToken> PushNotificationTokens { get; set; }
         internal DbSet<Monitor> Monitors { get; set; }
+        internal DbSet<MonitorLog> MonitorLogs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
