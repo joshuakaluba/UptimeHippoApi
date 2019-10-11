@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UptimeHippoApi.Data.Models.WebResource;
+using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
 {
