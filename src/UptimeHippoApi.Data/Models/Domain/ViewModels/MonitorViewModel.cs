@@ -15,7 +15,16 @@ namespace UptimeHippoApi.Data.Models.Domain.ViewModels
         [JsonProperty("interval")]
         public MonitorIntervalEnum Interval { get; set; }
 
+        [JsonProperty("keyWord")]
+        public string KeyWord { get; set; }
+
+        [JsonProperty("port")]
+        public string Port { get; set; }
+
         [JsonProperty("active")]
         public bool Active { get; set; } = true;
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }
