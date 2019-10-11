@@ -14,6 +14,15 @@ namespace UptimeHippoApi.Data.Models.WebResource
         [JsonProperty("url")]
         public string Url { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("keyWord")]
+        public string KeyWord { get; set; }
+
+        [JsonProperty("port")]
+        public string Port { get; set; }
+
         [JsonProperty("type")]
         public MonitorTypeEnum Type { get; set; }
 
