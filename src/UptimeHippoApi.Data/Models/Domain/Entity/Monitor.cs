@@ -2,7 +2,7 @@
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Models.Domain.Entity;
 
-namespace UptimeHippoApi.Data.Models.WebResource
+namespace UptimeHippoApi.Data.Models.Domain.Entity
 {
     public class Monitor : Auditable
     {

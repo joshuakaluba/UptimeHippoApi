@@ -1,4 +1,4 @@
-﻿namespace UptimeHippoApi.Data.Models.WebResource
+﻿namespace UptimeHippoApi.Data.Models.Domain.Entity
 {
     public enum MonitorTypeEnum
     {
