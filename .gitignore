@@ -355,3 +355,6 @@ rebuild_containers.sh
 publish.lnk
 src/UptimeHippoApi.Web/appsettings.Development.json
 src/UptimeHippoApi.Web/appsettings.json
+production_build.bat
+.vscode/launch.json
+.vscode/tasks.json
