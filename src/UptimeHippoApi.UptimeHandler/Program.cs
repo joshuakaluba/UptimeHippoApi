@@ -1,12 +1,26 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+using UptimeHippoApi.Data.DataAccessLayer.Monitors;
+using UptimeHippoApi.UptimeHandler.Services.Monitoring;
 
 namespace UptimeHippoApi.UptimeHandler
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var serviceProvider = new ServiceCollection()
+           .AddTransient<IMonitorsRepository, MonitorsRepository>()
+           .AddTransient<IMonitoringService, MonitoringService>()
+           .BuildServiceProvider();
+
+            var monitorsRepository = serviceProvider.GetService<IMonitorsRepository>();
+            var monitoringService = serviceProvider.GetService<IMonitoringService>();
+
+            Task.Run(async () =>
+            {
+                await monitoringService.Monitor(monitorsRepository);
+            }).GetAwaiter().GetResult();
         }
     }
 }
