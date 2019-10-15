@@ -15,7 +15,11 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
         Task<Monitor> FindMonitor(Guid id);
 
         Task UpdateMonitor(Monitor monitor);
+        
+        Task UpdateMonitors(IEnumerable<Monitor> monitors);
 
         Task<IEnumerable<Monitor>> GetMonitorsByUser(IdentityUser user);
+
+        Task<IEnumerable<Monitor>> GetAllActiveMonitors();
     }
 }
