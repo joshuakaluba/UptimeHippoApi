@@ -358,3 +358,4 @@ src/UptimeHippoApi.Web/appsettings.json
 production_build.bat
 .vscode/launch.json
 .vscode/tasks.json
+run_uptime_handler.sh
