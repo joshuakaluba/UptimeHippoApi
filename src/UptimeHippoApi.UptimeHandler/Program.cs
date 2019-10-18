@@ -18,11 +18,19 @@ namespace UptimeHippoApi.UptimeHandler
 
             var monitorsRepository = serviceProvider.GetService<IMonitorsRepository>();
             var monitoringService = serviceProvider.GetService<IMonitoringService>();
+            var monitorLogsRepository = serviceProvider.GetService<IMonitorLogsRepository>();
 
             Task.Run(async () =>
             {
-                await monitoringService.Monitor(monitorsRepository);
+                await Run(monitorsRepository, monitorLogsRepository, monitoringService);
             }).GetAwaiter().GetResult();
+        }
+
+        private static async Task Run(IMonitorsRepository monitorsRepository,
+            IMonitorLogsRepository monitorLogsRepository,
+            IMonitoringService monitoringService)
+        {
+            await monitoringService.Monitor(null, monitorsRepository, monitorLogsRepository);
         }
     }
 }
