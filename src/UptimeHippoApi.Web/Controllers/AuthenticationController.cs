@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
-using UptimeHippoApi.Common.Exception;
+using UptimeHippoApi.Common.Models;
 using UptimeHippoApi.Data.DataAccessLayer.Authentication;
 using UptimeHippoApi.Data.DataAccessLayer.PushNotificationTokens;
 using UptimeHippoApi.Data.Models.Authentication;
