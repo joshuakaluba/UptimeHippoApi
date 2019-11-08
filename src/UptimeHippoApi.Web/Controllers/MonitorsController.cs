@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using UptimeHippoApi.Common.Exception;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Models.Domain.ViewModels;
 using UptimeHippoApi.Data.Models.Domain.Entity;
+using UptimeHippoApi.Common.Models;
 
 namespace UptimeHippoApi.Web.Controllers
 {
