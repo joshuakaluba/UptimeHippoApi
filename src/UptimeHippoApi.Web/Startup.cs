@@ -16,6 +16,7 @@ using UptimeHippoApi.Data.Initialization;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Services.Authentication;
 using UptimeHippoApi.Data.Services.Messaging;
+using UptimeHippoApi.UptimeHandler.Services.Monitoring;
 using UptimeHippoApi.Web.MiddleWare;
 using TokenOptions = UptimeHippoApi.Data.Models.Authentication.TokenOptions;
 
@@ -42,6 +43,7 @@ namespace UptimeHippoApi.Web
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<IMonitorsRepository, MonitorsRepository>();
             services.AddScoped<IMonitorLogsRepository, MonitorLogsRepository>();
+            services.AddScoped<IMonitoringService, MonitoringService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddCors(o => o.AddPolicy("UptimeHippoCorsPolicy", corsBuilder =>
             {
