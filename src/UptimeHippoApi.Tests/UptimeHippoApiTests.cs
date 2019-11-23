@@ -89,7 +89,7 @@ namespace UptimeHippoApi.Tests
                 = new TwilioMessage(ApplicationConfig.TwilioAccountSId,
                 ApplicationConfig.TwilioAuthenticationToken, ApplicationConfig.TwilioSenderPhoneNumber);
 
-            twilioMessage.Send(ApplicationConfig.TwilioRecipientPhoneNumber, "Test Message from tests").Wait();
+            //twilioMessage.Send(ApplicationConfig.TwilioRecipientPhoneNumber, "Test Message from tests").Wait();
         }
     }
 }
