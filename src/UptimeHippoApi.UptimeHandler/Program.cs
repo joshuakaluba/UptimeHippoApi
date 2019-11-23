@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
+using UptimeHippoApi.Data.Containers;
 using UptimeHippoApi.Data.DataAccessLayer.MonitorLogs;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.UptimeHandler.Services.Monitoring;
@@ -31,6 +32,17 @@ namespace UptimeHippoApi.UptimeHandler
             IMonitoringService monitoringService)
         {
             await monitoringService.Monitor(null, monitorsRepository, monitorLogsRepository);
+
+            var failedMonitors = monitoringService.GetFailedMonitors();
+            var applicationUserMonitor = new ApplicationUserMonitors();
+
+            foreach (var monitor in failedMonitors)
+            {
+                if (!monitor.Triggered)
+                {
+                    applicationUserMonitor.Add(monitor);
+                }
+            }
         }
     }
 }
