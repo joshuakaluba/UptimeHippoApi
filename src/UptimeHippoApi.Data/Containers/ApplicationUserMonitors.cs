@@ -4,29 +4,20 @@ using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Data.Containers
 {
-    public class ApplicationUserMonitors
+    public class ApplicationUserMonitors : Dictionary<ApplicationUser, List<Monitor>>
     {
-        public Dictionary<ApplicationUser, List<Monitor>> userMonitors;
-
-        public ApplicationUserMonitors()
-        {
-            userMonitors = new Dictionary<ApplicationUser, List<Monitor>>();
-        }
-
         public void Add(Monitor monitor)
         {
-            if (monitor.Triggered) { return; }
-
-            if (userMonitors.ContainsKey(monitor.ApplicationUser))
+            if (this.ContainsKey(monitor.ApplicationUser))
             {
-                userMonitors[monitor.ApplicationUser].Add(monitor);
+                this[monitor.ApplicationUser].Add(monitor);
             }
             else
             {
                 var monitorList = new List<Monitor>();
                 monitorList.Add(monitor);
 
-                userMonitors.Add(monitor.ApplicationUser, monitorList);
+                this.Add(monitor.ApplicationUser, monitorList);
             }
         }
     }
