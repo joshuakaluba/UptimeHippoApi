@@ -5,24 +5,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using UptimeHippoApi.Common.Models;
+using UptimeHippoApi.Data.DataAccessLayer.MonitorLogs;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.Models.Authentication;
-using UptimeHippoApi.Data.Models.Domain.ViewModels;
 using UptimeHippoApi.Data.Models.Domain.Entity;
-using UptimeHippoApi.Common.Models;
+using UptimeHippoApi.Data.Models.Domain.ViewModels;
+using UptimeHippoApi.UptimeHandler.Services.Monitoring;
 
 namespace UptimeHippoApi.Web.Controllers
 {
     public class MonitorsController : BaseController<MonitorsController>
     {
         private readonly IMonitorsRepository _monitorsRepository;
+        private readonly IMonitorLogsRepository _monitorLogsRepository;
+        private readonly IMonitoringService _monitoringService;
 
         public MonitorsController(UserManager<ApplicationUser> userManager,
             IMonitorsRepository monitorsRepository,
+            IMonitoringService monitoringService,
+            IMonitorLogsRepository monitorLogsRepository,
             ILogger<MonitorsController> logger)
             : base(userManager, logger)
         {
             _monitorsRepository = monitorsRepository;
+            _monitoringService = monitoringService;
+            _monitorLogsRepository = monitorLogsRepository;
         }
 
         //Monitors/GetMonitors
@@ -36,7 +44,37 @@ namespace UptimeHippoApi.Web.Controllers
 
                 var monitors = await _monitorsRepository.GetMonitorsByUser(user);
 
+                var monitorLogs
+                    = await _monitoringService.Monitor
+                        (monitors, _monitorsRepository, _monitorLogsRepository);
+
+                monitors = await _monitorsRepository.GetMonitorsByUser(user);
+
                 return Ok(monitors);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                return BadRequest(new ErrorMessage(ex));
+            }
+        }
+
+        //Monitors/CheckMonitorsStatus
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Trusted")]
+        public async Task<IActionResult> CheckMonitorsStatus()
+        {
+            try
+            {
+                var user = await GetUser();
+
+                var monitors = await _monitorsRepository.GetMonitorsByUser(user);
+
+                var monitorLogs
+                    = await _monitoringService.Monitor
+                        (monitors, _monitorsRepository, _monitorLogsRepository);
+
+                return Ok(monitorLogs);
             }
             catch (Exception ex)
             {
