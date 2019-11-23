@@ -2,11 +2,16 @@
 using System.Threading.Tasks;
 using UptimeHippoApi.Data.DataAccessLayer.MonitorLogs;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
+using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.UptimeHandler.Services.Monitoring
 {
-    internal interface IMonitoringService
+    public interface IMonitoringService
     {
-        Task Monitor(IEnumerable<Data.Models.Domain.Entity.Monitor> sitesToMonitor, IMonitorsRepository monitorsRepository, IMonitorLogsRepository monitorLogRepository);
+        Task<List<MonitorLog>> Monitor(IEnumerable<Monitor> sitesToMonitor, 
+            IMonitorsRepository monitorsRepository, 
+            IMonitorLogsRepository monitorLogRepository);
+
+        List<Monitor> GetFailedMonitors();
     }
 }
