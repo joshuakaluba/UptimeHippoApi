@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using UptimeHippoApi.Common.Exception;
+using UptimeHippoApi.Common.Utilities;
+using UptimeHippoApi.Data.DataAccessLayer.MonitorLogs;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.UptimeHandler.Services.Monitoring
 {
-    public class MonitoringService : IMonitoringService
+    public sealed class MonitoringService : IMonitoringService
     {
         private List<Monitor> _failedMonitors;
         private List<Monitor> _processedMonitors;
         private List<MonitorLog> _monitorLogs;
-
 
         public MonitoringService()
         {
@@ -22,9 +25,9 @@ namespace UptimeHippoApi.UptimeHandler.Services.Monitoring
             _monitorLogs = new List<MonitorLog>();
         }
 
-        private async Task HttpMonitor (List<Monitor> httpMonitors)
+        private async Task HttpMonitor(IEnumerable<Monitor> httpMonitors)
         {
-            foreach(var monitor in httpMonitors)
+            foreach (var monitor in httpMonitors)
             {
                 monitor.LastMonitorDate = DateTime.UtcNow;
 
@@ -46,13 +49,13 @@ namespace UptimeHippoApi.UptimeHandler.Services.Monitoring
 
                         responseCode = (int)response.StatusCode;
                         response.EnsureSuccessStatusCode();
-                        
+
                         monitor.LastMonitorSuccess = true;
 
                         monitorLog.ResponseCode = responseCode;
                         monitorLog.Successful = true;
 
-                       
+                        monitor.Triggered = false;
                     }
                     catch (Exception ex)
                     {
@@ -62,46 +65,188 @@ namespace UptimeHippoApi.UptimeHandler.Services.Monitoring
 
                         monitor.LastMonitorSuccess = false;
 
-                        _failedMonitors.Add(monitor);
+                        _failedMonitors.Add(new Monitor(monitor));
+
+                        monitor.Triggered = true;
                     }
                     finally
                     {
                         _processedMonitors.Add(monitor);
                         _monitorLogs.Add(monitorLog);
                     }
-                    
                 }
             }
         }
 
-        public async Task Monitor(IMonitorsRepository monitorsRepository)
+        private async Task KeyWordMonitor(IEnumerable<Monitor> keyWordMonitors)
         {
-            var allSitesToMonitor = await monitorsRepository.GetAllActiveMonitors();
+            foreach (var monitor in keyWordMonitors)
+            {
+                monitor.LastMonitorDate = DateTime.UtcNow;
+
+                using (var httpClient = new HttpClient())
+                {
+                    var monitorLog = new MonitorLog
+                    {
+                        MonitorId = monitor.Id
+                    };
+
+                    var responseCode = 0;
+
+                    try
+                    {
+                        httpClient.BaseAddress = new Uri(monitor.Url);
+                        httpClient.DefaultRequestHeaders.Accept.Clear();
+
+                        var response = await httpClient.GetAsync("");
+
+                        responseCode = (int)response.StatusCode;
+                        response.EnsureSuccessStatusCode();
+
+                        using (var content = response.Content)
+                        {
+                            var html = await content.ReadAsStringAsync();
+
+                            MonitoringHelper.EnsureKeyWordExists(html, monitor.KeyWord);
+
+                            monitor.LastMonitorSuccess = true;
+
+                            monitorLog.ResponseCode = responseCode;
+                            monitorLog.Successful = true;
+                            monitor.Triggered = false;
+                        }
+                    }
+                    catch (KeyWordNotFoundException)
+                    {
+                        monitorLog.ResponseCode = responseCode;
+                        monitorLog.Successful = false;
+                        monitorLog.ExceptionMessage = "Unable to find keyword";
+
+                        monitor.LastMonitorSuccess = false;
+
+                        _failedMonitors.Add(new Monitor(monitor));
+                        monitor.Triggered = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        monitorLog.ResponseCode = responseCode;
+                        monitorLog.Successful = false;
+                        monitorLog.ExceptionMessage = ex.Message;
+
+                        monitor.LastMonitorSuccess = false;
+
+                        _failedMonitors.Add(new Monitor(monitor));
+                        monitor.Triggered = true;
+                    }
+                    finally
+                    {
+                        _processedMonitors.Add(monitor);
+                        _monitorLogs.Add(monitorLog);
+                    }
+                }
+            }
+        }
+
+        private void PingMonitor(IEnumerable<Monitor> pingMonitors)
+        {
+            foreach (var monitor in pingMonitors)
+            {
+                monitor.LastMonitorDate = DateTime.UtcNow;
+
+                var monitorLog = new MonitorLog
+                {
+                    MonitorId = monitor.Id
+                };
+
+                try
+                {
+                    var successfullPing = MonitoringHelper.PingHost(monitor.Url);
+
+                    if (successfullPing)
+                    {
+                        monitor.LastMonitorSuccess = true;
+                        monitorLog.Successful = true;
+                        monitor.Triggered = false;
+                    }
+                    else
+                    {
+                        throw new PingException("Unable to ping ");
+                    }
+                }
+                catch (PingException ex)
+                {
+                    monitorLog.Successful = false;
+                    monitorLog.ExceptionMessage = ex.Message;
+
+                    monitor.LastMonitorSuccess = false;
+
+                    _failedMonitors.Add(new Monitor(monitor));
+                    monitor.Triggered = true;
+                }
+                catch (Exception ex)
+                {
+                    monitorLog.Successful = false;
+                    monitorLog.ExceptionMessage = ex.Message;
+
+                    monitor.LastMonitorSuccess = false;
+
+                    _failedMonitors.Add(new Monitor(monitor));
+                    monitor.Triggered = true;
+                }
+                finally
+                {
+                    _processedMonitors.Add(monitor);
+                    _monitorLogs.Add(monitorLog);
+                }
+            }
+        }
+
+        public async Task<List<MonitorLog>> Monitor(IEnumerable<Monitor> sitesToMonitor,
+            IMonitorsRepository monitorsRepository,
+            IMonitorLogsRepository monitorLogsRepository)
+        {
+            if (sitesToMonitor == null)
+            {
+                sitesToMonitor = await monitorsRepository.GetAllActiveMonitors();
+            }
 
             var httpMonitors
-                = allSitesToMonitor.Where
+                = sitesToMonitor.Where
                     (monitor => monitor.Type == MonitorTypeEnum.HTTP)
                         .ToList();
 
-            await this.HttpMonitor(httpMonitors);
+            var keyWordMonitors
+                = sitesToMonitor.Where
+                    (monitor => monitor.Type == MonitorTypeEnum.KEYWORD)
+                        .ToList();
 
-            await monitorsRepository.UpdateMonitors(_processedMonitors);
-
-
-            //var keyWordMonitors
-            //    = allSitesToMonitor.Where
-            //        (monitor => monitor.Type == MonitorTypeEnum.KEYWORD)
-            //            .ToList();
-
-            //var pingMonitors
-            //    = allSitesToMonitor.Where
-            //        (monitor => monitor.Type == MonitorTypeEnum.PING)
-            //            .ToList();
+            var pingMonitors
+                = sitesToMonitor.Where
+                    (monitor => monitor.Type == MonitorTypeEnum.PING)
+                        .ToList();
 
             //var portMonitors
-            //    = allSitesToMonitor.Where
+            //    = sitesToMonitor.Where
             //        (monitor => monitor.Type == MonitorTypeEnum.PORT)
             //            .ToList();
+
+            await HttpMonitor(httpMonitors);
+
+            await KeyWordMonitor(keyWordMonitors);
+
+            //TODO refactor and run this asynchronously..
+            PingMonitor(pingMonitors);
+
+            await monitorsRepository.UpdateMonitors(_processedMonitors);
+            
+            await monitorLogsRepository.SaveMonitorLogs(_monitorLogs);
+
+            return _monitorLogs;
+        }
+
+        public List<Monitor> GetFailedMonitors()
+        {
+            return _failedMonitors;
         }
     }
 }
