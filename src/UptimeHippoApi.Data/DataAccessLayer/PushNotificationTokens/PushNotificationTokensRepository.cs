@@ -5,7 +5,7 @@ using UptimeHippoApi.Data.Models.Notification;
 
 namespace UptimeHippoApi.Data.DataAccessLayer.PushNotificationTokens
 {
-    public class PushNotificationTokensRepository : BaseRepository, IPushNotificationTokensRepository
+    public sealed class PushNotificationTokensRepository : BaseRepository, IPushNotificationTokensRepository
     {
         public async Task SavePushNotificationToken(PushNotificationToken token)
         {
