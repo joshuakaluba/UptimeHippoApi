@@ -12,6 +12,21 @@ namespace UptimeHippoApi.Data.Models.Domain.Entity
             Url = url;
         }
 
+        public Monitor(Monitor monitor)
+        {
+            this.Url = monitor.Url;
+            this.Name = monitor.Name;
+            this.KeyWord = monitor.KeyWord;
+            this.Port = monitor.Port;
+            this.LastMonitorDate = monitor.LastMonitorDate;
+            this.LastMonitorSuccess = monitor.LastMonitorSuccess;
+            this.Interval = monitor.Interval;
+            this.Active = monitor.Active;
+            this.Triggered = monitor.Triggered;
+            this.ApplicationUserId = monitor.ApplicationUserId;
+            this.ApplicationUser = monitor.ApplicationUser;
+        }
+
         [JsonProperty("url")]
         public string Url { get; set; }
 
@@ -38,6 +53,9 @@ namespace UptimeHippoApi.Data.Models.Domain.Entity
 
         [JsonProperty("active")]
         public bool Active { get; set; } = true;
+
+        [JsonProperty("triggered")]
+        public bool Triggered { get; set; } = true;
 
         public string ApplicationUserId { get; set; }
 
