@@ -5,7 +5,6 @@
     <UserSecretsId>UptimeHippoApi.Web</UserSecretsId>
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -21,28 +20,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UptimeHippoApi.Data\UptimeHippoApi.Data.csproj" />
-    <ProjectReference Include="..\UptimeHippoApi.Services\UptimeHippoApi.Services.csproj" />
+    <ProjectReference Include="..\UptimeHippoApi.UptimeHandler\UptimeHippoApi.UptimeHandler.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update=".env">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="docker-compose.yml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Dockerfile">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="rebuild_containers.sh">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
