@@ -15,7 +15,7 @@ using UptimeHippoApi.UptimeHandler.Services.Monitoring;
 
 namespace UptimeHippoApi.Web.Controllers
 {
-    public class MonitorsController : BaseController<MonitorsController>
+    public sealed class MonitorsController : BaseController<MonitorsController>
     {
         private readonly IMonitorsRepository _monitorsRepository;
         private readonly IMonitorLogsRepository _monitorLogsRepository;

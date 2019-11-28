@@ -17,7 +17,7 @@ using TokenOptions = UptimeHippoApi.Data.Models.Authentication.TokenOptions;
 
 namespace UptimeHippoApi.Web.Controllers
 {
-    public class AuthenticationController : BaseController<AuthenticationController>
+    public sealed class AuthenticationController : BaseController<AuthenticationController>
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly TokenOptions _tokenOptions;

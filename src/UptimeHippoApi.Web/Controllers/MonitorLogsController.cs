@@ -12,7 +12,7 @@ using UptimeHippoApi.Data.Models.Authentication;
 
 namespace UptimeHippoApi.Web.Controllers
 {
-    public class MonitorLogsController : BaseController<MonitorsController>
+    public sealed class MonitorLogsController : BaseController<MonitorsController>
     {
         private readonly IMonitorsRepository _monitorsRepository;
         private readonly IMonitorLogsRepository _monitorLogsRepository;
