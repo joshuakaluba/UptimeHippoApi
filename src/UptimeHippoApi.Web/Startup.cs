@@ -15,7 +15,6 @@ using UptimeHippoApi.Data.DataContext;
 using UptimeHippoApi.Data.Initialization;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Services.Authentication;
-using UptimeHippoApi.Data.Services.Messaging;
 using UptimeHippoApi.UptimeHandler.Services.Monitoring;
 using UptimeHippoApi.Web.MiddleWare;
 using TokenOptions = UptimeHippoApi.Data.Models.Authentication.TokenOptions;
@@ -38,7 +37,6 @@ namespace UptimeHippoApi.Web
         {
             services.AddDbContext<UptimeHippoDataContext>();
             services.AddScoped<IPushNotificationTokensRepository, PushNotificationTokensRepository>();
-            services.AddScoped<IMessagingService, MessagingService>();
             services.AddScoped<IUserValidatorService, UserValidatorService>();
             services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
             services.AddScoped<IMonitorsRepository, MonitorsRepository>();

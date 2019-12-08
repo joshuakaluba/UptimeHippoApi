@@ -1,9 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.NetworkInformation;
 using UptimeHippoApi.Common.Exception;
-using UptimeHippoApi.Common.Messaging;
 using UptimeHippoApi.Common.Utilities;
-using UptimeHippoApi.Data.Models.Static;
 
 namespace UptimeHippoApi.Tests
 {
@@ -80,16 +78,6 @@ namespace UptimeHippoApi.Tests
             var urlToTest = "www.google.com";
 
             MonitoringHelper.PingHost(urlToTest);
-        }
-
-        [TestMethod]
-        public void SendTwilioMessage()
-        {
-            var twilioMessage
-                = new TwilioMessage(ApplicationConfig.TwilioAccountSId,
-                ApplicationConfig.TwilioAuthenticationToken, ApplicationConfig.TwilioSenderPhoneNumber);
-
-            //twilioMessage.Send(ApplicationConfig.TwilioRecipientPhoneNumber, "Test Message from tests").Wait();
         }
     }
 }
