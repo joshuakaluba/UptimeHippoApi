@@ -18,7 +18,7 @@ namespace UptimeHippoApi.Data.Models.Domain.ViewModels
         public string KeyWord { get; set; }
 
         [JsonProperty("port")]
-        public string Port { get; set; }
+        public int Port { get; set; }
 
         [JsonProperty("active")]
         public bool Active { get; set; } = true;
