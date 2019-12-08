@@ -14,8 +14,10 @@ namespace UptimeHippoApi.Data.Containers
             }
             else
             {
-                var monitorList = new List<Monitor>();
-                monitorList.Add(monitor);
+                var monitorList = new List<Monitor>
+                {
+                    monitor
+                };
 
                 this.Add(monitor.ApplicationUser, monitorList);
             }
