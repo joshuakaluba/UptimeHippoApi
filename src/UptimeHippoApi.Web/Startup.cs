@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
@@ -25,7 +25,7 @@ namespace UptimeHippoApi.Web
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -46,7 +46,6 @@ namespace UptimeHippoApi.Web
             services.AddCors(o => o.AddPolicy("UptimeHippoCorsPolicy", corsBuilder =>
             {
                 corsBuilder.WithOrigins("http://localhost:4200")
-                    .WithOrigins("https://testzone.kaluba.tech")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
@@ -77,20 +76,18 @@ namespace UptimeHippoApi.Web
                     };
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthorization(options => options.AddPolicy("Trusted", policy => policy.RequireClaim("DefaultUserClaim", "DefaultUserAuthorization")));
             services.AddOptions();
             services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             try
             {
                 if (env.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
-                    app.UseBrowserLink();
                     app.UseDatabaseErrorPage();
                 }
                 else
@@ -98,15 +95,18 @@ namespace UptimeHippoApi.Web
                     app.UseExceptionHandler("/Home/Error");
                 }
 
+                app.UseRouting();
+
                 app.UseCors("UptimeHippoCorsPolicy");
                 app.UseMiddleware<MaintainCorsHeadersMiddleware>();
                 app.UseStaticFiles();
                 app.UseAuthentication();
-                app.UseMvc(routes =>
+
+                app.UseAuthorization();
+
+                app.UseEndpoints(endpoints =>
                 {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
                 });
 
                 DataContextInitializer.UpdateContext(serviceProvider).Wait();
