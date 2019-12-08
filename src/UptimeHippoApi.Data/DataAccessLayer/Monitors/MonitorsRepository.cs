@@ -9,7 +9,7 @@ using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
 {
-    public class MonitorsRepository : BaseRepository, IMonitorsRepository
+    public sealed class MonitorsRepository : BaseRepository, IMonitorsRepository
     {
         public async Task CreateMonitor(Monitor monitor)
         {
@@ -41,6 +41,20 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
             }
         }
 
+        public async Task<IEnumerable<Monitor>> GetAllActiveMonitors()
+        {
+            using (DataContext = new UptimeHippoDataContext())
+            {
+                var monitors =
+                   await DataContext.Monitors
+                       .Where(monitor => monitor.Active)
+                        .Include(monitor => monitor.ApplicationUser)
+                           .OrderByDescending(monitor => monitor.DateCreated)
+                               .ToListAsync();
+                return monitors;
+            }
+        }
+
         public async Task<IEnumerable<Monitor>> GetMonitorsByUser(IdentityUser user)
         {
             using (DataContext = new UptimeHippoDataContext())
@@ -59,6 +73,19 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
             using (DataContext = new UptimeHippoDataContext())
             {
                 DataContext.Monitors.Update(monitor);
+                await DataContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateMonitors(IEnumerable<Monitor> monitors)
+        {
+            using (DataContext = new UptimeHippoDataContext())
+            {
+                foreach(var monitor in monitors)
+                {
+                    DataContext.Monitors.Update(monitor);
+                }
+
                 await DataContext.SaveChangesAsync();
             }
         }
