@@ -4,7 +4,7 @@ namespace UptimeHippoApi.Data.Models.Static
 {
     public static class ApplicationConfig
     {
-        #region Database Configs
+        #region Database Configuration
 
         internal static string DatabaseHost
            = Environment.GetEnvironmentVariable
@@ -13,7 +13,7 @@ namespace UptimeHippoApi.Data.Models.Static
         public static string Port
             = Environment.GetEnvironmentVariable
                 ("UPTIME_HIPPO_API_APPLICATION_PORT", target: EnvironmentVariableTarget.Process);
-
+        
         internal static string DatabaseName
             = Environment.GetEnvironmentVariable
                 ("UPTIME_HIPPO_API_DB_NAME", target: EnvironmentVariableTarget.Process);
@@ -26,9 +26,13 @@ namespace UptimeHippoApi.Data.Models.Static
             = Environment.GetEnvironmentVariable
                 ("UPTIME_HIPPO_API_DB_PASSWORD", target: EnvironmentVariableTarget.Process);
 
-        #endregion Database Configs
+        public static string PushNotificationMicroUrl
+            = Environment.GetEnvironmentVariable
+                ("PUSH_NOTIFICATION_MICRO", target: EnvironmentVariableTarget.Process);
 
-        #region Test User Creds
+        #endregion Database Configuration
+
+        #region Test User Credentials
 
         public static string TestUserEmail
             = Environment.GetEnvironmentVariable
@@ -38,7 +42,7 @@ namespace UptimeHippoApi.Data.Models.Static
             = Environment.GetEnvironmentVariable
                 ("UPTIME_HIPPO_TEST_USER_PASSWORD", target: EnvironmentVariableTarget.Process);
 
-        #endregion Test User Creds
+        #endregion Test User Credentials
 
         #region Twilio Config
 
