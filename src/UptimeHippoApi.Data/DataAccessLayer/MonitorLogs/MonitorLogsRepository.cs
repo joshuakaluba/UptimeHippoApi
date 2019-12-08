@@ -16,8 +16,8 @@ namespace UptimeHippoApi.Data.DataAccessLayer.MonitorLogs
                 var monitorLogs
                     = await DataContext.MonitorLogs
                     .Where(m => m.MonitorId == monitor.Id)
-                    .OrderByDescending(m=>m.DateCreated)
-                    .Include(m=>m.Monitor)
+                    .OrderByDescending(m => m.DateCreated)
+                    .Include(m => m.Monitor)
                     .Take(500)
                     .ToListAsync();
 

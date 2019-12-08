@@ -81,7 +81,7 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Monitors
         {
             using (DataContext = new UptimeHippoDataContext())
             {
-                foreach(var monitor in monitors)
+                foreach (var monitor in monitors)
                 {
                     DataContext.Monitors.Update(monitor);
                 }

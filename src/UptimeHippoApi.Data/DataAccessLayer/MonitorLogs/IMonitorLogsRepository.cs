@@ -7,6 +7,7 @@ namespace UptimeHippoApi.Data.DataAccessLayer.MonitorLogs
     public interface IMonitorLogsRepository
     {
         Task SaveMonitorLogs(IEnumerable<MonitorLog> monitorLogs);
+
         Task<IEnumerable<MonitorLog>> GetMonitorLogsByMonitor(Monitor monitor);
     }
 }

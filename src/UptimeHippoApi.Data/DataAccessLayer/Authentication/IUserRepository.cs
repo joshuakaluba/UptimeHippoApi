@@ -7,6 +7,7 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Authentication
     public interface IUserRepository
     {
         Task<IdentityResult> RegisterNewUser(UserManager<ApplicationUser> userManager, ApplicationUser user, string password);
+
         Task<IdentityResult> UpdateUser(UserManager<ApplicationUser> userManager, ApplicationUser user);
     }
 }

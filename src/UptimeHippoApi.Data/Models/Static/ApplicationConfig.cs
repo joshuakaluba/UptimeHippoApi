@@ -13,7 +13,7 @@ namespace UptimeHippoApi.Data.Models.Static
         public static string Port
             = Environment.GetEnvironmentVariable
                 ("UPTIME_HIPPO_API_APPLICATION_PORT", target: EnvironmentVariableTarget.Process);
-        
+
         internal static string DatabaseName
             = Environment.GetEnvironmentVariable
                 ("UPTIME_HIPPO_API_DB_NAME", target: EnvironmentVariableTarget.Process);

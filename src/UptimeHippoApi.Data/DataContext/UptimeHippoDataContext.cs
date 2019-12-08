@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UptimeHippoApi.Data.Models.Authentication;
+using UptimeHippoApi.Data.Models.Domain.Entity;
 using UptimeHippoApi.Data.Models.Notification;
 using UptimeHippoApi.Data.Models.Static;
-using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Data.DataContext
 {

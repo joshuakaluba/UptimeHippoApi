@@ -7,7 +7,7 @@ namespace UptimeHippoApi.Data.Services.Authentication
         //TODO implement true user validation
         //that is more than checking if account is active
         public bool ValidateUser(ApplicationUser user)
-        {            
+        {
             return user.Active;
         }
     }

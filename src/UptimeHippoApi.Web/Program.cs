@@ -11,10 +11,10 @@ namespace UptimeHippoApi.Web
     {
         public static void Main(string[] args)
         {
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                logger.Debug("Initialzed from main");
+                logger.Debug("Initialized from main");
                 BuildWebHost(args).Run();
             }
             catch (Exception ex)
@@ -24,7 +24,6 @@ namespace UptimeHippoApi.Web
             }
             finally
             {
-                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
             }
         }
@@ -35,7 +34,7 @@ namespace UptimeHippoApi.Web
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .UseNLog()
                 .UseUrls($"http://*:{ApplicationConfig.Port}")
