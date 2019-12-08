@@ -19,5 +19,12 @@ namespace UptimeHippoApi.Data.DataAccessLayer.Authentication
 
             return result;
         }
+
+        public async Task<IdentityResult> UpdateUser(UserManager<ApplicationUser> userManager, ApplicationUser user)
+        {
+            var result = await userManager.UpdateAsync(user);
+
+            return result;
+        }
     }
 }
