@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using UptimeHippoApi.Common.Exception;
 using UptimeHippoApi.Common.Utilities;
+using UptimeHippoApi.Data.Containers;
 using UptimeHippoApi.Data.DataAccessLayer.MonitorLogs;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.Models.Domain.Entity;
@@ -238,15 +239,25 @@ namespace UptimeHippoApi.UptimeHandler.Services.Monitoring
             PingMonitor(pingMonitors);
 
             await monitorsRepository.UpdateMonitors(_processedMonitors);
-            
+
             await monitorLogsRepository.SaveMonitorLogs(_monitorLogs);
 
             return _monitorLogs;
         }
 
-        public List<Monitor> GetFailedMonitors()
+        public ApplicationUserMonitors GetFailedMonitors()
         {
-            return _failedMonitors;
+            var applicationUserMonitors = new ApplicationUserMonitors();
+
+            foreach (var monitor in _failedMonitors)
+            {
+                if (!monitor.Triggered)
+                {
+                    applicationUserMonitors.Add(monitor);
+                }
+            }
+
+            return applicationUserMonitors;
         }
     }
 }
