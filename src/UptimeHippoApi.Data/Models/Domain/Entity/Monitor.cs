@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using UptimeHippoApi.Data.Models.Authentication;
-using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Data.Models.Domain.Entity
 {
@@ -60,5 +59,37 @@ namespace UptimeHippoApi.Data.Models.Domain.Entity
         public string ApplicationUserId { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public string OutageDescription
+        {
+            get
+            {
+                var output = "";
+
+                switch (Type)
+                {
+                    case MonitorTypeEnum.HTTP:
+                        output = $"{Name}: {Url}";
+                        break;
+
+                    case MonitorTypeEnum.KEYWORD:
+                        output = $"{Name}: Unable to find keyword {KeyWord}";
+                        break;
+
+                    case MonitorTypeEnum.PING:
+                        output = $"{Name}: Unable to ping {Url}";
+                        break;
+
+                    case MonitorTypeEnum.PORT:
+                        output = $"{Name}: Unable to reach port {Port}";
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return output;
+            }
+        }
     }
 }
