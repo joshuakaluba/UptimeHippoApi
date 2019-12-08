@@ -7,7 +7,7 @@ using UptimeHippoApi.Data.Models.Domain.Entity;
 
 namespace UptimeHippoApi.Data.DataContext
 {
-    public class UptimeHippoDataContext : IdentityDbContext<ApplicationUser>
+    public sealed class UptimeHippoDataContext : IdentityDbContext<ApplicationUser>
     {
         internal DbSet<PushNotificationToken> PushNotificationTokens { get; set; }
         internal DbSet<Monitor> Monitors { get; set; }
