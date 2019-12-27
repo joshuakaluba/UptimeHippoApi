@@ -361,3 +361,5 @@ production_build.bat
 run_uptime_handler.sh
 production_build_api.bat
 production_build_handler.bat
+src/UptimeHippoApi.Web/appsettings.Development.json
+src/UptimeHippoApi.Web/appsettings.json
