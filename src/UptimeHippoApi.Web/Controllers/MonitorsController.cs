@@ -137,7 +137,7 @@ namespace UptimeHippoApi.Web.Controllers
                     return Ok(monitor);
                 }
 
-                return BadRequest(new ErrorMessage("Unable to delete monitor"));
+                return BadRequest(new ErrorMessage("Unable to update monitor"));
             }
             catch (Exception ex)
             {
