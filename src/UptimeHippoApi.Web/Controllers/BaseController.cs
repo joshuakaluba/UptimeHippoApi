@@ -24,9 +24,15 @@ namespace UptimeHippoApi.Web.Controllers
             return userId;
         }
 
-        protected async Task<ApplicationUser> GetUser()
+        protected async Task<ApplicationUser> GetCurrentAuthenticatedUser()
         {
             var user = await UserManager.FindByIdAsync(GetUserId());
+
+            if (user == null)
+            {
+                throw new System.NullReferenceException("Unable to retrieve authenticated user");
+            }
+
             return user;
         }
     }

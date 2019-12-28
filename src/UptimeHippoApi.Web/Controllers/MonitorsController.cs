@@ -40,7 +40,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 var monitors = await _monitorsRepository.GetMonitorsByUser(user);
 
@@ -66,7 +66,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 var monitors = await _monitorsRepository.GetMonitorsByUser(user);
 
@@ -90,7 +90,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 var monitor = new Monitor(monitorViewModel.Url);
 
@@ -119,7 +119,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 var monitor = await _monitorsRepository.FindMonitor(id);
 
@@ -155,7 +155,7 @@ namespace UptimeHippoApi.Web.Controllers
             {
                 var monitor = await _monitorsRepository.FindMonitor(id);
 
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 if (monitor != null && monitor.ApplicationUserId == user.Id)
                 {

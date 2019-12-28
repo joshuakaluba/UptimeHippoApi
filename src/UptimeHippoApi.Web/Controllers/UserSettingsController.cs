@@ -30,7 +30,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
                 var userViewModel = new UserSettingsViewModel(user);
 
                 return Ok(userViewModel);
@@ -49,7 +49,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
                 user.UpdateFromUserViewModel(userSettingsViewModel);
 
                 await _userRepository.UpdateUser(UserManager, user);

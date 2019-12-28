@@ -34,7 +34,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 var monitor = await _monitorsRepository.FindMonitor(id);
 

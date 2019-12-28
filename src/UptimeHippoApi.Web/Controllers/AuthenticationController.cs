@@ -128,7 +128,7 @@ namespace UptimeHippoApi.Web.Controllers
         {
             try
             {
-                var user = await GetUser();
+                var user = await GetCurrentAuthenticatedUser();
 
                 var pushNotificationToken = new PushNotificationToken
                 {
