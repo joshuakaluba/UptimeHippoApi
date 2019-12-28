@@ -12,7 +12,6 @@ using UptimeHippoApi.Data.DataAccessLayer.MonitorLogs;
 using UptimeHippoApi.Data.DataAccessLayer.Monitors;
 using UptimeHippoApi.Data.DataAccessLayer.PushNotificationTokens;
 using UptimeHippoApi.Data.DataContext;
-using UptimeHippoApi.Data.Initialization;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Services.Authentication;
 using UptimeHippoApi.UptimeHandler.Services.Monitoring;

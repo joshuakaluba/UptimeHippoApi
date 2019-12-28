@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using UptimeHippoApi.Data.Initialization;
+using UptimeHippoApi.Data.DataContext;
 using UptimeHippoApi.Data.Models.Authentication;
 
 namespace UptimeHippoApi.Data.DataAccessLayer.Authentication

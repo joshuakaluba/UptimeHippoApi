@@ -5,11 +5,10 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using UptimeHippoApi.Data.DataContext;
 using UptimeHippoApi.Data.Models.Authentication;
 using UptimeHippoApi.Data.Models.Static;
 
-namespace UptimeHippoApi.Data.Initialization
+namespace UptimeHippoApi.Data.DataContext
 {
     public static class DataContextInitializer
     {
